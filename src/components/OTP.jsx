@@ -10,6 +10,7 @@ export default function OTPVerification() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const inputRefs = useRef([]);
 
@@ -60,9 +61,8 @@ export default function OTPVerification() {
       const data = response.data;
 
       if (response.status === 200 && data.message === 'Email verified successfully. You can log in now.') {
-        alert('✅ Email verified successfully. You can log in now.');
+        setShowSuccessModal(true);
         setOtp(['', '', '', '', '', '']);
-        navigate('/login');
       } else {
         setError(data.message || 'Verification failed');
       }
@@ -73,8 +73,14 @@ export default function OTPVerification() {
     }
   };
 
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    navigate('/login');
+  };
+
   return (
     <div className="relative w-full h-screen">
+      {/* Background Image */}
       <img
         src={pregnancyImg}
         alt="Background"
@@ -82,6 +88,7 @@ export default function OTPVerification() {
       />
       <div className="absolute w-full h-full bg-black opacity-60 z-10"></div>
 
+      {/* Content */}
       <div className="relative z-20 flex justify-center items-center h-full">
         <div className="bg-gradient-to-br from-blue-500 to-red-500 p-8 rounded-xl shadow-lg w-full max-w-md">
           <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
@@ -130,6 +137,49 @@ export default function OTPVerification() {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                <svg
+                  className="h-6 w-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mt-3">
+                Verification Successful!
+              </h3>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">
+                  Your email has been successfully verified. You can now log in to your account.
+                </p>
+              </div>
+              <div className="mt-4">
+                <button
+                  type="button"
+                  className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  onClick={handleCloseModal}
+                >
+                  Back to Login
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
