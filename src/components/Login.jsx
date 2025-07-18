@@ -1,16 +1,88 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import loginImg from '../assets/pregnancy.png';
 import ForgotPassword from './ForgotPassword';
 import Register from './Register';
-import FaceLogin from './FaceLogin'; // 👈 Make sure this file exists
+import FaceLogin from './FaceLogin';
+// import LoginWithPin from './LoginWithPin'; 
+// import LoginWithPin from   './LoginPin';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('Doctor');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [showFaceLogin, setShowFaceLogin] = useState(false); // 👈 New state
+  const [showFaceLogin, setShowFaceLogin] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('http://localhost:3100/api/v1/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (response.status === 200 && responseData.success) {
+        // Redirect to LoginWithPin page with user email and type
+        navigate('/login-pin', {
+          state: {
+            userEmail: email,
+            userType: userType.toLowerCase()
+          }
+        });
+      } else {
+        setErrorMessage(responseData.message || "Wrong credentials.");
+      }
+    } catch (error) {
+      setErrorMessage("Failed to connect to the server.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async (email) => {
+    try {
+      const response = await fetch(`http://localhost:3100/api/v1/users/forgot-password/${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const responseData = await response.json();
+
+      if (response.status === 200 && responseData.success) {
+        alert("Password reset email sent");
+        setShowForgotPassword(false);
+      } else {
+        alert(responseData.message || "Failed to send password reset email");
+      }
+    } catch (error) {
+      alert("Failed to connect to the server");
+    }
+  };
 
   if (showForgotPassword) {
-    return <ForgotPassword goBack={() => setShowForgotPassword(false)} />;
+    return <ForgotPassword 
+             goBack={() => setShowForgotPassword(false)} 
+             onSubmit={handleForgotPassword} 
+           />;
   }
 
   if (showRegister) {
@@ -30,15 +102,34 @@ export default function Login() {
 
       {/* Right side */}
       <div className='bg-gradient-to-br from-blue-500 to-red-500 flex flex-col justify-center items-center'>
-        <form className='max-w-[400px] w-full mx-auto rounded-lg bg-cyan-600 p-8 px-8 shadow-xl'>
-          <h2 className="text-4xl text-white font-bold text-center">SIGN IN</h2>
+        <form onSubmit={handleLogin} className='max-w-[400px] w-full mx-auto rounded-lg bg-white bg-opacity-10 p-8 px-8 shadow-xl backdrop-blur-sm'>
+          <div className='flex justify-center mb-8'>
+            <div className='rounded-full border-2 border-white p-1'>
+              <img 
+                className='w-24 h-24 rounded-full object-cover' 
+                src={loginImg} 
+                alt="User" 
+              />
+            </div>
+          </div>
+          
+          <h2 className="text-4xl text-white font-bold text-center mb-8">SIGN IN</h2>
+
+          {errorMessage && (
+            <div className='mb-4 p-2 bg-red-100 text-red-700 rounded text-center'>
+              {errorMessage}
+            </div>
+          )}
 
           {/* Email */}
           <div className='flex flex-col py-2'>
             <label className='text-white'>Email</label>
             <input 
-              className='rounded-lg bg-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-black' 
-              type="text" 
+              className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -46,20 +137,27 @@ export default function Login() {
           <div className='flex flex-col py-2'>
             <label className='text-white'>Password</label>
             <input 
-              className='p-2 rounded-lg bg-white mt-2 focus:border-blue-500 focus:outline-none text-black' 
+              className='p-2 rounded-lg bg-white bg-opacity-10 border border-white mt-2 focus:border-blue-500 focus:outline-none text-white' 
               type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
           {/* User Type */}
           <div className='flex flex-col py-2'>
             <label className='text-white'>User Type</label>
-            <select className='mt-2 p-2 rounded-lg bg-white text-black focus:border-blue-500 focus:outline-none'>
-              <option>Doctor</option>
-              <option>Pregnant Woman</option>
-              <option>Family Relative</option>
-              <option>Admin</option>
-              <option>Wellness User</option>
+            <select 
+              className='mt-2 p-2 rounded-lg bg-white bg-opacity-10 border border-white text-white focus:border-blue-500 focus:outline-none'
+              value={userType}
+              onChange={(e) => setUserType(e.target.value)}
+            >
+              <option className='bg-blue-500'>Doctor</option>
+              <option className='bg-blue-500'>Pregnant Woman</option>
+              <option className='bg-blue-500'>Family Relative</option>
+              <option className='bg-blue-500'>Admin</option>
+              <option className='bg-blue-500'>Wellness User</option>
             </select>
           </div>
 
@@ -77,8 +175,18 @@ export default function Login() {
           </div>
 
           {/* Login Button */}
-          <button className='w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg'>
-            LOGIN
+          <button 
+            type='submit'
+            className='w-full my-5 py-3 bg-white text-blue-500 shadow-lg hover:shadow-white/40 font-semibold rounded-lg flex justify-center items-center'
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            ) : null}
+            {isLoading ? 'Processing...' : 'LOGIN'}
           </button>
 
           {/* Extra Links */}
@@ -89,7 +197,7 @@ export default function Login() {
             Don't have an account? Register here
           </p>
 
-          {/* 👇 Facial Recognition Redirect */}
+          {/* Facial Recognition Redirect */}
           <p 
             className='text-center text-white text-sm italic mt-2 hover:underline cursor-pointer'
             onClick={() => setShowFaceLogin(true)}
