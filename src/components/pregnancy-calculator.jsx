@@ -21,8 +21,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import pregnancyImg from '../assets/pregnancy.png';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const PregnancyCalculatorScreen = ({ userEmail }) => {
+const PregnancyCalculatorScreen = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
   const [weeksPregnant, setWeeksPregnant] = useState(null);
   const [daysPregnant, setDaysPregnant] = useState(null);
@@ -31,21 +34,20 @@ const PregnancyCalculatorScreen = ({ userEmail }) => {
   const [dialogMessage, setDialogMessage] = useState('');
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
+  // Get userEmail from location state
+  const userEmail = location.state?.userEmail || 'User';
+
   const calculatePregnancyWeeks = (lmpDate) => {
     if (!lmpDate) return;
 
     const today = new Date();
     const lmp = new Date(lmpDate);
     
-    // Calculate weeks and days pregnant from LMP
     const totalDays = Math.floor((today - lmp) / (1000 * 60 * 60 * 24));
     const weeks = Math.floor(totalDays / 7);
     const days = totalDays % 7;
-    
-    // Calculate due date (280 days or 40 weeks from LMP)
     const calculatedDueDate = addDays(lmp, 280);
     
-    // Check if the pregnancy is viable (not in the future or too far back)
     if (totalDays < 0) {
       setDialogMessage("Please select a date in the past for your last menstrual period.");
       setDialogOpen(true);
@@ -87,11 +89,17 @@ const PregnancyCalculatorScreen = ({ userEmail }) => {
     calculatePregnancyWeeks(date);
   };
 
-  // Create date limits - allow selection up to 2040 but not future dates for LMP
-  // const maxDate = new Date();
   const maxDate = new Date('2040-12-31');
   const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 2); // Allow up to 2 years back
+  minDate.setFullYear(minDate.getFullYear() - 2);
+
+  const navigateToHealthDashboard = () => {
+    navigate('/health-dashboard', {
+      state: {
+        userEmail: userEmail
+      }
+    });
+  };
 
   return (
     <Box
@@ -222,7 +230,6 @@ const PregnancyCalculatorScreen = ({ userEmail }) => {
                       You Are {weeksPregnant} Weeks {daysPregnant > 0 ? `and ${daysPregnant} Day${daysPregnant > 1 ? 's' : ''}` : ''} Pregnant
                     </Typography>
                     
-                    {/* Due Date */}
                     {dueDate && (
                       <Typography
                         variant="h6"
@@ -236,7 +243,6 @@ const PregnancyCalculatorScreen = ({ userEmail }) => {
                       </Typography>
                     )}
                     
-                    {/* Trimester Information */}
                     <Typography
                       variant="h6"
                       align="center"
@@ -261,10 +267,7 @@ const PregnancyCalculatorScreen = ({ userEmail }) => {
               >
                 <Button
                   endIcon={<ChevronRightIcon />}
-                  onClick={() => {
-                    // Navigate to HealthDashboard with userEmail
-                    console.log(`Navigating to HealthDashboard for ${userEmail}`);
-                  }}
+                  onClick={navigateToHealthDashboard}
                   sx={{
                     color: 'primary.main',
                     fontSize: '1.1rem',
