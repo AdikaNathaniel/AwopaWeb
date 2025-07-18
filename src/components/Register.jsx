@@ -13,12 +13,9 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const isValidEmail = (email) =>
-    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-
+  const isValidEmail = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
   const isValidCard = (c) => /^\d{6,15}$/.test(c);
 
-  // Map of display values to backend values
   const userTypeMap = {
     'Doctor': 'doctor',
     'Pregnant Woman': 'pregnant-woman',
@@ -31,6 +28,7 @@ export default function Register() {
     e.preventDefault();
     setMessage('');
 
+    // Validation checks
     if (!name || !email || !password || !type || !card) {
       setMessage('All fields are required.');
       return;
@@ -57,38 +55,36 @@ export default function Register() {
       const res = await fetch('http://localhost:3100/api/v1/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify({ 
-        //   name, 
-        //   email: email.toLowerCase(), 
-        //   password, 
-        //   type: userTypeMap[type], // Use mapped value
-        //   card: card.toString() // Ensure card is sent as string
-        // }),
         body: JSON.stringify({ 
-        name, 
-        email: email.toLowerCase(), 
-        password, 
-        type: userTypeMap[type],
-        card: parseInt(card) // Convert to number
-}),
+          name, 
+          email: email.toLowerCase(), 
+          password, 
+          type: userTypeMap[type],
+          card: parseInt(card)
+        }),
       });
+      
       const data = await res.json();
+      
       if (res.status === 201 && data.success) {
-        setMessage('Registration successful! Please check your email for OTP.');
+        setMessage('Registration successful! Redirecting to OTP verification...');
+        // Wait 1.5 seconds to show the message before redirecting
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        navigate('/otp', { 
+          state: { email: email.toLowerCase() } 
+        });
       } else {
-        setMessage(data.message || `Registration failed (${res.status}).`);
+        throw new Error(data.message || `Registration failed (${res.status})`);
       }
     } catch (err) {
-      setMessage('Server error during registration.');
+      setMessage(err.message || 'Server error during registration.');
     } finally {
       setLoading(false);
     }
   };
 
-
   const handleCardChange = (e) => {
     const value = e.target.value;
-    // Only allow numeric input
     if (/^\d*$/.test(value)) {
       setCard(value);
     }
@@ -96,12 +92,10 @@ export default function Register() {
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
-      {/* Left side image */}
       <div className='hidden sm:block'>
         <img className='w-full h-full object-cover' src={loginImg} alt="Pregnancy" />
       </div>
 
-      {/* Right side */}
       <div className='bg-gradient-to-br from-blue-500 to-red-500 flex flex-col justify-center items-center'>
         <form 
           onSubmit={handleSubmit}
@@ -120,7 +114,9 @@ export default function Register() {
           <h2 className="text-4xl text-white font-bold text-center mb-8">Register On Awopa</h2>
 
           {message && (
-            <div className='mb-4 p-2 bg-red-100 text-red-700 rounded text-center'>
+            <div className={`mb-4 p-2 rounded text-center ${
+              message.includes('successful') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            }`}>
               {message}
             </div>
           )}
@@ -177,9 +173,9 @@ export default function Register() {
           <div className='flex flex-col py-2'>
             <label className='text-white'>Ghana Card Number</label>
             <input 
-              type="text"  // Changed from "number" to "text"
-              inputMode="numeric" // Shows numeric keyboard on mobile
-              pattern="[0-9]*" // Ensures only numbers are entered
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={card}
               onChange={handleCardChange}
@@ -222,19 +218,3 @@ export default function Register() {
     </div>
   );
 }
-
-
-
-// .Give the corresponding .jsx code for this pag with the  import pregnancyImg from '../assets/pregnancy.png'; as the background image and the endpoints should also be added in the .jsx code..Give the full code  for this.Give the full code  for this and make any button be in cyan -600.Use
-// framer motion for alot of animation effects on this page.Make sure all the imports are well imported but make it a .jsx file instead of .dart
-// Make sure that whatecver is pon the .dart file including hinttext should alos be on the .jsx file 
-
-
-
-
-
-// <div className='bg-gradient-to-br from-blue-500 to-red-500 flex flex-col justify-center items-center'>
-//   <form className='max-w-[400px] w-full mx-auto rounded-lg bg-white bg-opacity-10 p-8 px-8 shadow-xl backdrop-blur-sm'>
-//     {/* Form content */}
-//   </form>
-// </div>

@@ -1,15 +1,26 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import pregnancyImg from '../assets/pregnancy.png';
 
 export default function OTPVerification() {
   const navigate = useNavigate();
-  const { email } = useParams();
+  const location = useLocation();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
 
   const inputRefs = useRef([]);
+
+  useEffect(() => {
+    if (location.state?.email) {
+      setEmail(location.state.email);
+    } else {
+      // If no email was passed, redirect back to register
+      navigate('/register');
+    }
+  }, [location, navigate]);
 
   const handleOtpChange = (index, value) => {
     if (!/^\d?$/.test(value)) return;
@@ -36,40 +47,34 @@ export default function OTPVerification() {
   const handleVerify = async () => {
     const otpCode = otp.join('');
     if (otpCode.length !== 6) {
-      alert('Please enter a valid 6-digit OTP');
+      setError('Please enter a valid 6-digit OTP');
       return;
     }
 
     setIsLoading(true);
+    setError('');
     try {
       const response = await axios.get(
         `http://localhost:3100/api/v1/users/verify-email/${otpCode}/${email}`
       );
       const data = response.data;
 
-      if (
-        response.status === 200 &&
-        data.message === 'Email verified successfully. You can log in now.'
-      ) {
+      if (response.status === 200 && data.message === 'Email verified successfully. You can log in now.') {
         alert('✅ Email verified successfully. You can log in now.');
-        setOtp(['', '', '', '', '', '']); // Clear boxes on success
-        inputRefs.current[0]?.focus();
+        setOtp(['', '', '', '', '', '']);
         navigate('/login');
       } else {
-        alert(data.message || 'Verification failed');
+        setError(data.message || 'Verification failed');
       }
     } catch (err) {
-      alert('❌ An error occurred. Please try again.');
+      setError(err.response?.data?.message || '❌ An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-
-    setOtp(['', '', '', '', '', '']); // Clear boxes on error too
-    inputRefs.current[0]?.focus();
-    setIsLoading(false);
   };
 
   return (
     <div className="relative w-full h-screen">
-      {/* Background Image */}
       <img
         src={pregnancyImg}
         alt="Background"
@@ -77,7 +82,6 @@ export default function OTPVerification() {
       />
       <div className="absolute w-full h-full bg-black opacity-60 z-10"></div>
 
-      {/* Content */}
       <div className="relative z-20 flex justify-center items-center h-full">
         <div className="bg-gradient-to-br from-blue-500 to-red-500 p-8 rounded-xl shadow-lg w-full max-w-md">
           <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
@@ -88,7 +92,12 @@ export default function OTPVerification() {
               Enter the 6-digit OTP sent to <span className="font-semibold">{email}</span>
             </p>
 
-            {/* OTP Input Boxes */}
+            {error && (
+              <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-center">
+                {error}
+              </div>
+            )}
+
             <div className="flex justify-center gap-3 mb-6">
               {otp.map((digit, index) => (
                 <input
