@@ -22,23 +22,94 @@ export default function Login() {
   // Typewriter effect state
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
+  const [animationPhase, setAnimationPhase] = useState(0);
   const fullText = 'Welcome To Awopa';
 
-  // Typewriter effect
+  // Complex typewriter effect
   useEffect(() => {
     let index = 0;
-    const timer = setInterval(() => {
-      if (index < fullText.length) {
-        setDisplayText(fullText.slice(0, index + 1));
-        index++;
-      } else {
-        setIsTyping(false);
-        clearInterval(timer);
+    let timer;
+
+    const runAnimation = () => {
+      switch (animationPhase) {
+        case 0: // Type full text first time
+          timer = setInterval(() => {
+            if (index < fullText.length) {
+              setDisplayText(fullText.slice(0, index + 1));
+              index++;
+            } else {
+              clearInterval(timer);
+              setTimeout(() => {
+                setAnimationPhase(1);
+                index = fullText.length;
+              }, 1000); // Wait 1 second before starting backspace
+            }
+          }, 250); // Slower typing speed for initial text
+          break;
+
+        case 1: // Backspace to "Welcome To"
+          timer = setInterval(() => {
+            if (index > 10) { // "Welcome To" is 10 characters
+              setDisplayText(fullText.slice(0, index - 1));
+              index--;
+            } else {
+              clearInterval(timer);
+              setTimeout(() => {
+                setAnimationPhase(2);
+              }, 500);
+            }
+          }, 50);
+          break;
+
+        case 2: // Type "Welcome To" again
+          timer = setInterval(() => {
+            if (index < 10) {
+              setDisplayText(fullText.slice(0, index + 1));
+              index++;
+            } else {
+              clearInterval(timer);
+              setTimeout(() => {
+                setAnimationPhase(3);
+              }, 500);
+            }
+          }, 200); // Slower typing for re-typing "Welcome To"
+          break;
+
+        case 3: // Backspace everything
+          timer = setInterval(() => {
+            if (index > 0) {
+              setDisplayText(fullText.slice(0, index - 1));
+              index--;
+            } else {
+              clearInterval(timer);
+              setTimeout(() => {
+                setAnimationPhase(4);
+              }, 500);
+            }
+          }, 50);
+          break;
+
+        case 4: // Type final "Awopa" and stay
+          timer = setInterval(() => {
+            if (index < 5) { // "Awopa" is 5 characters
+              setDisplayText('Awopa'.slice(0, index + 1));
+              index++;
+            } else {
+              clearInterval(timer);
+              setIsTyping(false); // Stop cursor blinking
+            }
+          }, 200); // Slower typing for final "Awopa"
+          break;
+
+        default:
+          break;
       }
-    }, 150); // Adjust speed here (milliseconds per character)
+    };
+
+    runAnimation();
 
     return () => clearInterval(timer);
-  }, []);
+  }, [animationPhase]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -119,9 +190,9 @@ export default function Login() {
       {/* Left side image with typewriter effect */}
       <div className='hidden sm:block relative'>
         <img className='w-full h-full object-cover' src={loginImg} alt="Pregnancy" />
-        {/* Typewriter overlay */}
-        <div className='absolute bottom-8 left-8 z-10'>
-          <h1 className='text-4xl md:text-5xl font-bold text-white drop-shadow-2xl'>
+        {/* Typewriter overlay - positioned to align with login button */}
+        <div className='absolute bottom-32 left-8 z-10'>
+          <h1 className='text-2xl md:text-3xl font-bold text-white drop-shadow-2xl'>
             {displayText}
             {isTyping && (
               <span className='animate-pulse text-white'>|</span>
