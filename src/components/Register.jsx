@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import loginImg from '../assets/pregnancy.png';
 
 export default function Register() {
@@ -10,6 +11,7 @@ export default function Register() {
   const [allowRelative, setAllowRelative] = useState(false);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const isValidEmail = (email) =>
     /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
@@ -63,110 +65,124 @@ export default function Register() {
   };
 
   return (
-    <div className="h-screen w-full relative">
-      <img
-        src={loginImg}
-        alt="Background"
-        className="absolute w-full h-full object-cover z-0"
-      />
-      <div className="absolute w-full h-full bg-black opacity-60 z-10"></div>
+    <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
+      {/* Left side image */}
+      <div className='hidden sm:block'>
+        <img className='w-full h-full object-cover' src={loginImg} alt="Pregnancy" />
+      </div>
 
-      <div className="flex justify-center items-center h-full z-20 relative">
-        <form
+      {/* Right side */}
+      <div className='bg-gradient-to-br from-blue-500 to-red-500 flex flex-col justify-center items-center'>
+        <form 
           onSubmit={handleSubmit}
-          className="max-w-lg w-full bg-cyan-600 text-white p-8 rounded-lg shadow-xl"
+          className='max-w-[500px] w-full mx-auto rounded-lg bg-white bg-opacity-10 p-8 shadow-xl backdrop-blur-sm'
         >
-          <h2 className="text-3xl font-bold text-center mb-6">Register On Awopa</h2>
+          <div className='flex justify-center mb-6'>
+            <div className='rounded-full border-2 border-white p-1'>
+              <img 
+                className='w-24 h-24 rounded-full object-cover' 
+                src={loginImg} 
+                alt="User" 
+              />
+            </div>
+          </div>
+
+          <h2 className="text-4xl text-white font-bold text-center mb-8">Register On Awopa</h2>
 
           {message && (
-            <p className="mb-4 text-center text-sm text-teal-100">{message}</p>
+            <div className='mb-4 p-2 bg-red-100 text-red-700 rounded text-center'>
+              {message}
+            </div>
           )}
 
-          <div className="flex flex-col mb-4">
-            <label className="mb-2">Full Name</label>
-            <input
-              className="p-2 rounded-lg bg-white text-black focus:outline-none"
+          <div className='flex flex-col py-2'>
+            <label className='text-white'>Full Name</label>
+            <input 
+              className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col mb-4">
-            <label className="mb-2">Email</label>
-            <input
+          <div className='flex flex-col py-2'>
+            <label className='text-white'>Email</label>
+            <input 
               type="email"
-              className="p-2 rounded-lg bg-white text-black focus:outline-none"
+              className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col mb-4">
-            <label className="mb-2">Password</label>
-            <input
+          <div className='flex flex-col py-2'>
+            <label className='text-white'>Password</label>
+            <input 
               type="password"
-              className="p-2 rounded-lg bg-white text-black focus:outline-none"
+              className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col mb-4">
-            <label className="mb-2">User Type</label>
-            <select
-              className="p-2 rounded-lg bg-white text-black focus:outline-none"
+          <div className='flex flex-col py-2'>
+            <label className='text-white'>User Type</label>
+            <select 
+              className='mt-2 p-2 rounded-lg bg-white bg-opacity-10 border border-white text-white focus:border-blue-500 focus:outline-none'
               value={type}
               onChange={(e) => setType(e.target.value)}
               required
             >
-              <option value="">Select type...</option>
-              <option>Doctor</option>
-              <option>Pregnant Woman</option>
-              <option>Family Relative</option>
-              <option>Admin</option>
-              <option>Wellness User</option>
+              <option value="" className='bg-blue-500'>Select type...</option>
+              <option className='bg-blue-500'>Doctor</option>
+              <option className='bg-blue-500'>Pregnant Woman</option>
+              <option className='bg-blue-500'>Family Relative</option>
+              <option className='bg-blue-500'>Admin</option>
+              <option className='bg-blue-500'>Wellness User</option>
             </select>
           </div>
 
-          <div className="flex flex-col mb-4">
-            <label className="mb-2">Ghana Card Number</label>
-            <input
-              className="p-2 rounded-lg bg-white text-black focus:outline-none"
+          <div className='flex flex-col py-2'>
+            <label className='text-white'>Ghana Card Number</label>
+            <input 
+              className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={card}
               onChange={(e) => setCard(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex items-center mb-6">
-            <input
+          <div className='flex items-center py-2 text-white'>
+            <input 
               type="checkbox"
               checked={allowRelative}
               onChange={() => setAllowRelative(!allowRelative)}
-              className="mr-2"
+              className='mr-2'
             />
             <label>Allow relative to view vitals</label>
           </div>
 
           <button
-            type="submit"
+            type='submit'
             disabled={loading}
-            className="w-full py-2 bg-teal-500 hover:bg-teal-600 rounded-lg font-semibold"
+            className='w-full my-5 py-3 bg-white text-blue-500 shadow-lg hover:shadow-white/40 font-semibold rounded-lg flex justify-center items-center'
           >
+            {loading ? (
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            ) : null}
             {loading ? 'Registering...' : 'Register'}
           </button>
 
-          <p className="text-center text-sm mt-4">
-            <button
-              type="button"
-              className="text-white hover:underline"
-              onClick={() => window.location.reload()}
-            >
-              Already have an account? Login
-            </button>
+          <p 
+            className='text-center text-white text-sm mt-4 hover:underline cursor-pointer'
+            onClick={() => navigate('/login')}
+          >
+            Already have an account? Login
           </p>
         </form>
       </div>
