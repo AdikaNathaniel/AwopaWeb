@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginImg from '../assets/pregnancy.png';
 import ForgotPassword from './ForgotPassword';
@@ -18,6 +18,27 @@ export default function Login() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showFaceLogin, setShowFaceLogin] = useState(false);
+
+  // Typewriter effect state
+  const [displayText, setDisplayText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+  const fullText = 'Welcome To Awopa';
+
+  // Typewriter effect
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayText(fullText.slice(0, index + 1));
+        index++;
+      } else {
+        setIsTyping(false);
+        clearInterval(timer);
+      }
+    }, 150); // Adjust speed here (milliseconds per character)
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -95,9 +116,20 @@ export default function Login() {
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
-      {/* Left side image */}
-      <div className='hidden sm:block'>
+      {/* Left side image with typewriter effect */}
+      <div className='hidden sm:block relative'>
         <img className='w-full h-full object-cover' src={loginImg} alt="Pregnancy" />
+        {/* Typewriter overlay */}
+        <div className='absolute bottom-8 left-8 z-10'>
+          <h1 className='text-4xl md:text-5xl font-bold text-white drop-shadow-2xl'>
+            {displayText}
+            {isTyping && (
+              <span className='animate-pulse text-white'>|</span>
+            )}
+          </h1>
+        </div>
+        {/* Optional: Add a subtle dark overlay to make text more readable */}
+        <div className='absolute inset-0 bg-black bg-opacity-20'></div>
       </div>
 
       {/* Right side */}
