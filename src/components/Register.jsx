@@ -229,3 +229,12 @@ export default function Register() {
 // framer motion for alot of animation effects on this page.Make sure all the imports are well imported but make it a .jsx file instead of .dart
 // Make sure that whatecver is pon the .dart file including hinttext should alos be on the .jsx file 
 
+
+
+
+
+// <div className='bg-gradient-to-br from-blue-500 to-red-500 flex flex-col justify-center items-center'>
+//   <form className='max-w-[400px] w-full mx-auto rounded-lg bg-white bg-opacity-10 p-8 px-8 shadow-xl backdrop-blur-sm'>
+//     {/* Form content */}
+//   </form>
+// </div>

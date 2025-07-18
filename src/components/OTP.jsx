@@ -79,43 +79,45 @@ export default function OTPVerification() {
 
       {/* Content */}
       <div className="relative z-20 flex justify-center items-center h-full">
-        <div className="bg-cyan-600 p-8 rounded-xl shadow-lg w-full max-w-md">
-          <h2 className="text-white text-3xl font-bold mb-4 text-center">
-            Verify Your Email
-          </h2>
-          <p className="text-white text-center mb-6">
-            Enter the 6-digit OTP sent to <span className="font-semibold">{email}</span>
-          </p>
+        <div className="bg-gradient-to-br from-blue-500 to-red-500 p-8 rounded-xl shadow-lg w-full max-w-md">
+          <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
+            <h2 className="text-white text-3xl font-bold mb-4 text-center">
+              Verify Your Email
+            </h2>
+            <p className="text-white text-center mb-6">
+              Enter the 6-digit OTP sent to <span className="font-semibold">{email}</span>
+            </p>
 
-          {/* OTP Input Boxes */}
-          <div className="flex justify-center gap-3 mb-6">
-            {otp.map((digit, index) => (
-              <input
-                key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
-                type="text"
-                inputMode="numeric"
-                maxLength="1"
-                value={digit}
-                onChange={(e) => handleOtpChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-xl bg-white text-black rounded-lg shadow-md"
-              />
-            ))}
-          </div>
+            {/* OTP Input Boxes */}
+            <div className="flex justify-center gap-3 mb-6">
+              {otp.map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength="1"
+                  value={digit}
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  className="w-12 h-12 text-center text-xl bg-white text-black rounded-lg shadow-md"
+                />
+              ))}
+            </div>
 
-          <button
-            onClick={handleVerify}
-            disabled={isLoading}
-            className="w-full py-3 bg-white text-cyan-700 font-bold rounded hover:bg-cyan-100"
-          >
-            {isLoading ? 'Verifying...' : 'VERIFY'}
-          </button>
+            <button
+              onClick={handleVerify}
+              disabled={isLoading}
+              className="w-full py-3 bg-white text-blue-500 font-bold rounded hover:bg-gray-100"
+            >
+              {isLoading ? 'Verifying...' : 'VERIFY'}
+            </button>
 
-          <div className="text-center mt-6">
-            <a href="/login" className="text-sm text-white underline">
-              Back to Login
-            </a>
+            <div className="text-center mt-6">
+              <a href="/login" className="text-sm text-white underline">
+                Back to Login
+              </a>
+            </div>
           </div>
         </div>
       </div>
