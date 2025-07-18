@@ -18,6 +18,15 @@ export default function Register() {
 
   const isValidCard = (c) => /^\d{6,15}$/.test(c);
 
+  // Map of display values to backend values
+  const userTypeMap = {
+    'Doctor': 'doctor',
+    'Pregnant Woman': 'pregnant-woman',
+    'Family Relative': 'relative',
+    'Admin': 'admin',
+    'Wellness User': 'wellness-user'
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -38,8 +47,7 @@ export default function Register() {
       setMessage('Password must be at least 6 characters.');
       return;
     }
-    const validTypes = ['patient', 'relative', 'doctor', 'nurse', 'wellness user', 'admin'];
-    if (!validTypes.includes(type.toLowerCase())) {
+    if (!userTypeMap[type]) {
       setMessage('Invalid user type.');
       return;
     }
@@ -49,7 +57,13 @@ export default function Register() {
       const res = await fetch('http://localhost:3100/api/v1/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email: email.toLowerCase(), password, type: type.toLowerCase(), card }),
+        body: JSON.stringify({ 
+          name, 
+          email: email.toLowerCase(), 
+          password, 
+          type: userTypeMap[type], // Use mapped value
+          card: card.toString() // Ensure card is sent as string
+        }),
       });
       const data = await res.json();
       if (res.status === 201 && data.success) {
@@ -147,6 +161,7 @@ export default function Register() {
           <div className='flex flex-col py-2'>
             <label className='text-white'>Ghana Card Number</label>
             <input 
+              type="number"
               className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={card}
               onChange={(e) => setCard(e.target.value)}
