@@ -57,13 +57,20 @@ export default function Register() {
       const res = await fetch('http://localhost:3100/api/v1/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify({ 
+        //   name, 
+        //   email: email.toLowerCase(), 
+        //   password, 
+        //   type: userTypeMap[type], // Use mapped value
+        //   card: card.toString() // Ensure card is sent as string
+        // }),
         body: JSON.stringify({ 
-          name, 
-          email: email.toLowerCase(), 
-          password, 
-          type: userTypeMap[type], // Use mapped value
-          card: card.toString() // Ensure card is sent as string
-        }),
+        name, 
+        email: email.toLowerCase(), 
+        password, 
+        type: userTypeMap[type],
+        card: parseInt(card) // Convert to number
+}),
       });
       const data = await res.json();
       if (res.status === 201 && data.success) {
@@ -75,6 +82,15 @@ export default function Register() {
       setMessage('Server error during registration.');
     } finally {
       setLoading(false);
+    }
+  };
+
+
+  const handleCardChange = (e) => {
+    const value = e.target.value;
+    // Only allow numeric input
+    if (/^\d*$/.test(value)) {
+      setCard(value);
     }
   };
 
@@ -161,10 +177,12 @@ export default function Register() {
           <div className='flex flex-col py-2'>
             <label className='text-white'>Ghana Card Number</label>
             <input 
-              type="number"
+              type="text"  // Changed from "number" to "text"
+              inputMode="numeric" // Shows numeric keyboard on mobile
+              pattern="[0-9]*" // Ensures only numbers are entered
               className='rounded-lg bg-white bg-opacity-10 border border-white mt-2 p-2 focus:border-blue-500 focus:outline-none text-white' 
               value={card}
-              onChange={(e) => setCard(e.target.value)}
+              onChange={handleCardChange}
               required
             />
           </div>
