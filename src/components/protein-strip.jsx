@@ -2,19 +2,16 @@ import React, { useState } from 'react';
 
 const UrineStripColorSelector = () => {
   const colors = [
-    '#00C2C7', // Cyan Blue
-    '#E5B7A5', // Light Pink
-    '#B794C0', // Light Purple
-    '#D8D8D8', // Light Gray
-    '#F0D56D', // Light Yellow
-    '#F5C243', // Yellow
-    '#FFA500', // Orange
-    '#FFD700', // Gold Yellow
-    '#D2B48C', // Tan
-    '#8B5A2B', // Dark Brown
+    '#F0F8B8', // Pale yellow/greenish - Negative
+    '#C8E6A0', // Light green - Trace
+    '#85C441', // Green - 1+
+    '#4A7C59', // Darker green - 2+
+    '#4ECDC4', // Blue-green/teal - 3+
+    '#2E86AB', // Deep blue - 4+
   ];
 
-  const proteinLevels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const proteinLevels = ['Negative', 'Trace', '(1+)', '(2+)', '(3+)', '(4+)'];
+  const concentrations = ['0 mg/dL', '~15 mg/dL', '~30 mg/dL', '~100 mg/dL', '~300 mg/dL', '≥2000 mg/dL'];
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
 
@@ -37,8 +34,9 @@ const UrineStripColorSelector = () => {
             Tap on the color that matches your urine strip to see your protein level.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {colors.map((color, index) => (
+          {/* Top row - 3 colors */}
+          <div className="flex justify-center gap-6 mb-6">
+            {colors.slice(0, 3).map((color, index) => (
               <div
                 key={index}
                 onClick={() => setSelectedIndex(index)}
@@ -47,7 +45,25 @@ const UrineStripColorSelector = () => {
                 }`}
               >
                 <div 
-                  className="w-16 h-16 rounded-full transition-all duration-300 hover:brightness-110" 
+                  className="w-16 h-16 rounded-full transition-all duration-300 hover:brightness-110 border-2 border-gray-300" 
+                  style={{ backgroundColor: color }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom row - 3 colors */}
+          <div className="flex justify-center gap-6 mb-8">
+            {colors.slice(3, 6).map((color, index) => (
+              <div
+                key={index + 3}
+                onClick={() => setSelectedIndex(index + 3)}
+                className={`p-1 rounded-full cursor-pointer transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+                  selectedIndex === index + 3 ? 'ring-4 ring-blue-500 shadow-lg' : 'hover:shadow-md'
+                }`}
+              >
+                <div 
+                  className="w-16 h-16 rounded-full transition-all duration-300 hover:brightness-110 border-2 border-gray-300" 
                   style={{ backgroundColor: color }}
                 />
               </div>
@@ -58,12 +74,17 @@ const UrineStripColorSelector = () => {
             <div className="text-center mb-8 transform transition-all duration-500 animate-fade-in">
               <h2 className="text-xl font-bold mb-4 text-gray-800">Selected Color:</h2>
               <div 
-                className="w-20 h-20 rounded-full mx-auto mb-4 shadow-md transition-all duration-300 hover:shadow-lg"
+                className="w-20 h-20 rounded-full mx-auto mb-4 shadow-md transition-all duration-300 hover:shadow-lg border-2 border-gray-300"
                 style={{ backgroundColor: colors[selectedIndex] }}
               />
-              <p className="text-2xl font-bold text-red-500 animate-bounce">
-                Protein Level: {proteinLevels[selectedIndex]}
-              </p>
+              <div className="bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-lg shadow-md">
+                <p className="text-2xl font-bold text-red-600 mb-2">
+                  Protein Level: {proteinLevels[selectedIndex]}
+                </p>
+                <p className="text-lg text-gray-700">
+                  Concentration: {concentrations[selectedIndex]}
+                </p>
+              </div>
             </div>
           )}
 
