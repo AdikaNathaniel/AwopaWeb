@@ -44,7 +44,7 @@ export default function AdminHomePage() {
           </div>
           
           <div 
-            onClick={() => navigate('/admin/support')}
+            onClick={() => navigate('/support-settings')}
             className="p-4 flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
           >
             <div className="w-16 h-16 flex items-center justify-center rounded-full bg-green-100">
