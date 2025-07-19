@@ -94,22 +94,25 @@ export default function MedicsListPage() {
   return (
     <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${pregnancyImg})` }}>
       <div className="bg-white bg-opacity-90 min-h-screen p-6">
+       <motion.div
+  initial={{ y: -50, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{ duration: 0.5 }}
+  className="bg-white rounded-lg shadow-md overflow-hidden mb-8"
+>
+  <div className="bg-cyan-600 text-white p-4">
+    <h1 className="text-xl font-bold text-center">Doctor Directory</h1>
+  </div>
+</motion.div>
+
+            
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-xl"
         >
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-cyan-600">Doctor Directory</h1>
-            <button
-              onClick={fetchMedics}
-              className="flex items-center gap-2 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700"
-            >
-              <MdRefresh size={18} />
-              Refresh
-            </button>
-          </div>
+         
 
           {loading ? (
             <div className="text-center py-8">
