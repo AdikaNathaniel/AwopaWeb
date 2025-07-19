@@ -130,12 +130,19 @@ const UserListPage = ({ userEmail = 'admin@example.com' }) => {
   );
 
   return (
-    <div className="relative w-full min-h-screen">
-      <img
-        src={pregnancyImg}
-        alt="Background"
-        className="absolute w-full h-full object-cover z-0"
-      />
+    <div 
+      className="relative w-full min-h-screen"
+      style={{
+        backgroundImage: `url(${pregnancyImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Optional overlay for better content readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
+      
       <div className="relative z-20 p-6">
         {/* Header Section */}
         <motion.div
@@ -160,7 +167,7 @@ const UserListPage = ({ userEmail = 'admin@example.com' }) => {
           </div>
         </motion.div>
 
-        {/* Main Content - Removed extra white background */}
+        {/* Main Content */}
         <div className="max-w-6xl mx-auto">
           {isLoading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
@@ -176,7 +183,7 @@ const UserListPage = ({ userEmail = 'admin@example.com' }) => {
                 width: '100%', 
                 maxWidth: 800, 
                 margin: '0 auto',
-                padding: 0 // Remove default padding
+                padding: 0
               }}>
                 {users.map((user, index) => (
                   <motion.div
@@ -185,7 +192,7 @@ const UserListPage = ({ userEmail = 'admin@example.com' }) => {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
-                    className="mb-4" // Added margin between cards
+                    className="mb-4"
                   >
                     <Card sx={{ 
                       borderRadius: 3,
