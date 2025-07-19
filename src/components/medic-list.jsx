@@ -92,28 +92,30 @@ export default function MedicsListPage() {
   };
 
   return (
-    <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${pregnancyImg})` }}>
-      <div className="bg-white bg-opacity-90 min-h-screen p-6">
-       <motion.div
-  initial={{ y: -50, opacity: 0 }}
-  animate={{ y: 0, opacity: 1 }}
-  transition={{ duration: 0.5 }}
-  className="bg-white rounded-lg shadow-md overflow-hidden mb-8"
->
-  <div className="bg-cyan-600 text-white p-4">
-    <h1 className="text-xl font-bold text-center">Doctor Directory</h1>
-  </div>
-</motion.div>
+    <div className="min-h-screen bg-cover bg-center bg-fixed" style={{ backgroundImage: `url(${pregnancyImg})` }}>
+      <div className="min-h-screen p-6">
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div className="bg-cyan-600 text-white p-4">
+              <h1 className="text-xl font-bold text-center">Doctor Directory</h1>
+            </div>
+          </div>
+        </motion.div>
 
-            
+
+        
+
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-xl"
+          className="max-w-4xl mx-auto"
         >
-         
-
           {loading ? (
             <div className="text-center py-8">
               <motion.div
@@ -121,14 +123,14 @@ export default function MedicsListPage() {
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
               >
-                🔄
+                <MdRefresh className="text-cyan-600 text-2xl" />
               </motion.div>
-              <p className="mt-2 text-gray-600">Loading doctors...</p>
+              <p className="mt-2 text-white">Loading doctors...</p>
             </div>
           ) : errorMessage ? (
-            <div className="text-center py-8 text-red-600">{errorMessage}</div>
+            <div className="text-center py-8 text-red-600 bg-white p-4 rounded-lg">{errorMessage}</div>
           ) : medics.length === 0 ? (
-            <div className="text-center py-8 text-gray-600">No doctors found.</div>
+            <div className="text-center py-8 text-white bg-white bg-opacity-80 p-4 rounded-lg">No doctors found.</div>
           ) : (
             <motion.div
               className="space-y-4"
