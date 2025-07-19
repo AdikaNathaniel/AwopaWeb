@@ -49,7 +49,7 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       }
     },
     {
-      icon: <FindInPageIcon color="primary" />,
+      icon: <FindInPageIcon color="secondary" />,
       title: "Get Support Request By Id",
       // subtitle: "Search for specific support request by ID",
       // type: "By ID",
@@ -59,7 +59,7 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       }
     },
     {
-      icon: <ReceiptLongIcon color="primary" />,
+      icon: <ReceiptLongIcon sx={{ color: '#4caf50' }} />,
       title: "Get Support Request By Name",
       // subtitle: "Search for support request by name",
       // type: "By Name",
@@ -157,33 +157,7 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
           </div>
         </motion.div>
 
-        {/* Admin Info Banner - Similar to UserListPage style */}
-        {/* <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-          className="max-w-6xl mx-auto mb-6"
-        >
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-purple-100 border-l-4 border-purple-500 p-4">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center mr-3">
-                  <AdminIcon className="text-purple-600" />
-                </div>
-                <div>
-                  <Typography variant="body1" className="font-medium text-purple-800">
-                    Admin: {userEmail}
-                  </Typography>
-                  <Typography variant="caption" className="text-purple-600">
-                    Support Management Portal
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div> */}
-
-        {/* Main Content - Same structure as UserListPage */}
+        {/* Main Content */}
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
@@ -219,13 +193,17 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
                     <CardContent>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <div style={{ marginRight: '16px' }}>
-                          <Avatar sx={{ width: 40, height: 40 }}>
+                          <Avatar sx={{ 
+                            width: 40, 
+                            height: 40,
+                            bgcolor: 'transparent'
+                          }}>
                             {option.icon}
                           </Avatar>
                         </div>
                         
                         <Box sx={{ flexGrow: 1 }}>
-                          <Typography variant="h6" fontWeight="bold">
+                          <Typography variant="h6" fontWeight="normal">
                             {option.title}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
@@ -252,7 +230,6 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
             </div>
           </motion.div>
 
-          
         </div>
 
         {/* User Modal - Same as UserListPage */}
