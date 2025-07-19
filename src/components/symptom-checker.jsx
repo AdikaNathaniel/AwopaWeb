@@ -169,40 +169,34 @@ const SymptomForm = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {/* AppBar */}
-          {/* <motion.div
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ type: 'spring', stiffness: 300 }}
+          {/* Header Section */}
+          <motion.div
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
             style={{
-              backgroundColor: '#1976d2',
-              color: 'white',
-              padding: '16px',
-              textAlign: 'center',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              padding: '16px 0',
+              marginBottom: '16px' // Reduced margin to close the gap
             }}
           >
-            <Typography variant="h5" component="h1">
-              Preeclampsia Symptom Checker
-            </Typography>
-          </motion.div> */}
-
-
-           <motion.div
-                    initial={{ y: -50, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="mx-auto max-w-6xl"  // Changed from max-w-4xl to max-w-6xl for wider header
-                  >
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-                      <div className="bg-cyan-600 text-white p-4">
-                        <h1 className="text-xl font-bold text-center">Preeclampsia Symptom Checker</h1>
-                      </div>
-                    </div>
-                  </motion.div>
+            <div style={{ 
+              backgroundColor: '#06b6d4', 
+              color: 'white', 
+              padding: '16px',
+              borderRadius: '8px',
+              maxWidth: '800px',
+              margin: '0 auto',
+              textAlign: 'center',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}>
+              <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>
+                Preeclampsia Symptom Checker
+              </h1>
+            </div>
+          </motion.div>
 
           {/* Form Content */}
-          <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ padding: '0 20px 20px', maxWidth: '800px', margin: '0 auto' }}>
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -210,7 +204,6 @@ const SymptomForm = () => {
             >
               <Card 
                 sx={{ 
-                  mb: 3, 
                   borderRadius: 3,
                   boxShadow: 5
                 }}
@@ -297,32 +290,32 @@ const SymptomForm = () => {
                     </motion.div>
 
                     {/* Submit Button */}
-                   <motion.div
-  style={{ marginTop: '32px', width: '100%' }}
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
->
-  <Button
-    type="submit"
-    variant="contained"
-    fullWidth
-    disabled={isSubmitting}
-    sx={{
-      height: '50px',
-      backgroundColor: '#06b6d4', // cyan-600
-      '&:hover': { backgroundColor: '#0891b2' }, // cyan-700
-      fontSize: '16px',
-      borderRadius: '8px',
-      textTransform: 'none' // <-- this keeps text casing as written
-    }}
-  >
-    {isSubmitting ? (
-      <CircularProgress size={24} color="inherit" />
-    ) : (
-      'Submit Symptoms'
-    )}
-  </Button>
-</motion.div>
+                    <motion.div
+                      style={{ marginTop: '32px', width: '100%' }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        fullWidth
+                        disabled={isSubmitting}
+                        sx={{
+                          height: '50px',
+                          backgroundColor: '#06b6d4', // cyan-600
+                          '&:hover': { backgroundColor: '#0891b2' }, // cyan-700
+                          fontSize: '16px',
+                          borderRadius: '8px',
+                          textTransform: 'none'
+                        }}
+                      >
+                        {isSubmitting ? (
+                          <CircularProgress size={24} color="inherit" />
+                        ) : (
+                          'Submit Symptoms'
+                        )}
+                      </Button>
+                    </motion.div>
                   </form>
                 </CardContent>
               </Card>
