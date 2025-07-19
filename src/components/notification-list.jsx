@@ -54,14 +54,14 @@ export default function NotificationListPage() {
 
   return (
     <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${pregnancyImg})`, padding: '20px 0' }}>
-      {/* Paystack Payment Header */}
+      {/* All Notifications Header - Wider than the card */}
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
         style={{
-          width: '90%',
-          maxWidth: '900px',
+          width: '94%', // Wider than the card
+          maxWidth: '1000px', // Wider max-width
           margin: '0 auto 10px',
           position: 'relative',
           zIndex: 2
@@ -72,14 +72,28 @@ export default function NotificationListPage() {
         </div>
       </motion.div>
 
-      {/* Notifications Card */}
+      {/* Notifications Card - Slightly narrower */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto p-6 rounded-2xl shadow-xl bg-white bg-opacity-90"
+        className="mx-auto p-6 rounded-2xl shadow-xl bg-white bg-opacity-90"
+        style={{
+          width: '90%',
+          maxWidth: '900px'
+        }}
       >
-    
+        <div className="flex justify-between items-center mb-6">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={fetchNotifications}
+            className="flex items-center gap-2 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700"
+          >
+            <FaSync className={isLoading ? 'animate-spin' : ''} />
+            Refresh
+          </motion.button>
+        </div>
 
         {isLoading ? (
           <motion.div
