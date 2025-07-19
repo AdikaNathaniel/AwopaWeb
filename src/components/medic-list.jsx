@@ -34,7 +34,7 @@ export default function MedicsListPage() {
 
     return (
       <motion.div
-        className="border p-4 rounded-xl shadow-sm mb-4 bg-white"
+        className="border p-4 rounded-xl shadow-sm mb-4 bg-white max-w-4xl mx-auto"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -94,11 +94,12 @@ export default function MedicsListPage() {
   return (
     <div className="min-h-screen bg-cover bg-center bg-fixed" style={{ backgroundImage: `url(${pregnancyImg})` }}>
       <div className="min-h-screen p-6">
+        {/* Doctor Directory Header - Wider than medic cards */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto"
+          className="mx-auto max-w-6xl"  // Changed from max-w-4xl to max-w-6xl for wider header
         >
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
             <div className="bg-cyan-600 text-white p-4">
@@ -107,14 +108,12 @@ export default function MedicsListPage() {
           </div>
         </motion.div>
 
-
-        
-
+        {/* Medic Cards Container - Narrower than header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-4xl mx-auto"  // Kept at max-w-4xl for narrower cards
         >
           {loading ? (
             <div className="text-center py-8">
