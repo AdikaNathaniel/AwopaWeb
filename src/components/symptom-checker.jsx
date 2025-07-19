@@ -169,14 +169,17 @@ const SymptomForm = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Header Section */}
+          {/* Header Section - Wider than the form card */}
           <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
             style={{
               padding: '16px 0',
-              marginBottom: '16px' // Reduced margin to close the gap
+              marginBottom: '16px',
+              width: '90%', // Wider than the form
+              maxWidth: '900px', // Slightly wider max-width
+              margin: '0 auto'
             }}
           >
             <div style={{ 
@@ -184,10 +187,9 @@ const SymptomForm = () => {
               color: 'white', 
               padding: '16px',
               borderRadius: '8px',
-              maxWidth: '800px',
-              margin: '0 auto',
               textAlign: 'center',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+              width: '100%' // Ensure it takes full width of parent
             }}>
               <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>
                 Preeclampsia Symptom Checker
@@ -195,8 +197,13 @@ const SymptomForm = () => {
             </div>
           </motion.div>
 
-          {/* Form Content */}
-          <div style={{ padding: '0 20px 20px', maxWidth: '800px', margin: '0 auto' }}>
+          {/* Form Content - Slightly narrower than the header */}
+          <div style={{ 
+            padding: '0 20px 20px', 
+            width: '85%', 
+            maxWidth: '800px', 
+            margin: '0 auto' 
+          }}>
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -302,8 +309,8 @@ const SymptomForm = () => {
                         disabled={isSubmitting}
                         sx={{
                           height: '50px',
-                          backgroundColor: '#06b6d4', // cyan-600
-                          '&:hover': { backgroundColor: '#0891b2' }, // cyan-700
+                          backgroundColor: '#06b6d4',
+                          '&:hover': { backgroundColor: '#0891b2' },
                           fontSize: '16px',
                           borderRadius: '8px',
                           textTransform: 'none'
