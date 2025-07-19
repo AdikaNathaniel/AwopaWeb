@@ -61,7 +61,7 @@ const PaystackInitiatePage = () => {
         backgroundAttachment: 'fixed',
       }}
     >
-      <div className="bg-black bg-opacity-60 min-h-screen">
+      <div className="min-h-screen">
         <div className="container mx-auto px-4 py-8">
           <motion.div
             initial={{ y: -50, opacity: 0 }}
@@ -103,7 +103,7 @@ const PaystackInitiatePage = () => {
 
               <div>
                 <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
-                  Amount (in pesewas)
+                  Amount (In Cedis)
                 </label>
                 <motion.div whileHover={{ scale: 1.01 }}>
                   <input
