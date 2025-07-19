@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import pregnancyImg from '../assets/pregnancy.png';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -27,16 +27,23 @@ import {
 
 // Helper function to format time elapsed
 const formatTimeElapsed = (date) => {
-  const now = new Date();
-  const diff = now - date;
-  const minutes = Math.floor(diff / (1000 * 60));
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  if (!date) return 'Never';
+  
+  try {
+    const now = new Date();
+    const dateObj = new Date(date);
+    const diff = now - dateObj;
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-  if (minutes < 1) return 'Just now';
-  if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  } catch (e) {
+    return 'Never';
+  }
 };
 
 export default function HealthDashboard() {
@@ -45,12 +52,27 @@ export default function HealthDashboard() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [weightModalOpen, setWeightModalOpen] = useState(false);
   const [newWeight, setNewWeight] = useState('');
-  const [weightLastUpdated, setWeightLastUpdated] = useState(new Date(Date.now() - 24 * 60 * 60 * 1000)); // 1 day ago initially
+  const [weightLastUpdated, setWeightLastUpdated] = useState(new Date(Date.now() - 24 * 60 * 60 * 1000));
   const [currentWeight, setCurrentWeight] = useState(68.5);
   const [activeNavItem, setActiveNavItem] = useState(null);
+  const [proteinData, setProteinData] = useState(null);
   
-  // Get userEmail from location state
+  // Get userEmail from location state or default
   const userEmail = location.state?.userEmail || 'User';
+
+  useEffect(() => {
+    // Check for protein data in location state (just came from urine test)
+    if (location.state?.proteinData) {
+      setProteinData(location.state.proteinData);
+      localStorage.setItem('proteinTestResult', JSON.stringify(location.state.proteinData));
+    } else {
+      // Try to load from localStorage
+      const savedProteinData = localStorage.getItem('proteinTestResult');
+      if (savedProteinData) {
+        setProteinData(JSON.parse(savedProteinData));
+      }
+    }
+  }, [location.state]);
 
   const metricData = [
     {
@@ -101,9 +123,10 @@ export default function HealthDashboard() {
     },
     {
       title: 'Protein in Urine',
-      value: 'Negative',
+      value: proteinData?.level || 'Not tested',
       icon: <TestTube size={32} className="text-indigo-500" />,
-      lastUpdated: '2 days ago',
+      lastUpdated: proteinData ? formatTimeElapsed(proteinData.lastUpdated) : 'Never',
+      color: proteinData?.color
     },
     {
       title: 'Patient ID',
@@ -116,7 +139,6 @@ export default function HealthDashboard() {
   const navItems = [
     { name: 'Appointments', path: '/medic-appointment', short: 'Appts' },
     { name: 'Pregnancy Tips', path: '/wellness-tips', short: 'Tips' },
-    // { name: 'Live Vitals', path: '/hardware-vitals', short: 'Vitals' },
     { name: 'Protein In Urine Test', path: '/urine-strip', short: 'Protein' },
     { name: 'InfoDesk', path: '/pregnancy-health', short: 'Info' },
     { name: 'Chatbot', path: '/pregnancy-chatbot', short: 'Chat' },
@@ -271,7 +293,17 @@ export default function HealthDashboard() {
               {metric.icon}
             </div>
             <h2 className="text-base md:text-lg font-semibold text-gray-800">{metric.title}</h2>
-            <p className="text-lg md:text-xl font-bold text-gray-900">{metric.value}</p>
+            {metric.color ? (
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <div 
+                  className="w-6 h-6 rounded-full border border-gray-300" 
+                  style={{ backgroundColor: metric.color }}
+                />
+                <p className="text-lg md:text-xl font-bold text-gray-900">{metric.value}</p>
+              </div>
+            ) : (
+              <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">{metric.value}</p>
+            )}
             <p className="text-xs md:text-sm text-gray-500">Last updated: {metric.lastUpdated}</p>
           </motion.div>
         ))}
@@ -415,4 +447,4 @@ export default function HealthDashboard() {
       </Dialog>
     </div>
   );
-}
+};

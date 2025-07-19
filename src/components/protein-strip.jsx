@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const UrineStripColorSelector = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userEmail = location.state?.userEmail || 'User';
+  
   const colors = [
     '#F0F8B8', // Pale yellow/greenish - Negative
     '#C8E6A0', // Light green - Trace
@@ -14,6 +19,30 @@ const UrineStripColorSelector = () => {
   const concentrations = ['0 mg/dL', '~15 mg/dL', '~30 mg/dL', '~100 mg/dL', '~300 mg/dL', '≥2000 mg/dL'];
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const handleColorSelect = (index) => {
+    setSelectedIndex(index);
+  };
+
+  const handleSaveAndReturn = () => {
+    if (selectedIndex !== null) {
+      const proteinData = {
+        level: proteinLevels[selectedIndex],
+        concentration: concentrations[selectedIndex],
+        lastUpdated: new Date().toISOString(),
+        color: colors[selectedIndex]
+      };
+      
+      localStorage.setItem('proteinTestResult', JSON.stringify(proteinData));
+      
+      navigate('/health-dashboard', { 
+        state: { 
+          userEmail,
+          proteinData 
+        } 
+      });
+    }
+  };
 
   return (
     <div 
@@ -39,7 +68,7 @@ const UrineStripColorSelector = () => {
             {colors.slice(0, 3).map((color, index) => (
               <div
                 key={index}
-                onClick={() => setSelectedIndex(index)}
+                onClick={() => handleColorSelect(index)}
                 className={`p-1 rounded-full cursor-pointer transition-all duration-300 transform hover:scale-110 active:scale-95 ${
                   selectedIndex === index ? 'ring-4 ring-blue-500 shadow-lg' : 'hover:shadow-md'
                 }`}
@@ -57,7 +86,7 @@ const UrineStripColorSelector = () => {
             {colors.slice(3, 6).map((color, index) => (
               <div
                 key={index + 3}
-                onClick={() => setSelectedIndex(index + 3)}
+                onClick={() => handleColorSelect(index + 3)}
                 className={`p-1 rounded-full cursor-pointer transition-all duration-300 transform hover:scale-110 active:scale-95 ${
                   selectedIndex === index + 3 ? 'ring-4 ring-blue-500 shadow-lg' : 'hover:shadow-md'
                 }`}
@@ -85,6 +114,13 @@ const UrineStripColorSelector = () => {
                   Concentration: {concentrations[selectedIndex]}
                 </p>
               </div>
+              
+              <button
+                onClick={handleSaveAndReturn}
+                className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-lg"
+              >
+                Save and Return to Dashboard
+              </button>
             </div>
           )}
 
