@@ -46,7 +46,7 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#2196f3', // Blue
       onClick: () => {
         _onOptionSelected("Get All Support Requests");
-        navigate('/support-requests');
+        navigate('/support-request');
       }
     },
     {
