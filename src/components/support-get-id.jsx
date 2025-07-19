@@ -37,6 +37,8 @@ const SupportByIdPage = () => {
   const [ticketData, setTicketData] = useState(null);
   const [error, setError] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
+  const userEmail = 'admin@example.com';
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -101,15 +103,65 @@ const SupportByIdPage = () => {
         backgroundAttachment: 'fixed'
       }}
     >
-      <AppBar position="static" elevation={0} sx={{ backgroundColor: 'cyan.600' }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            Find Support Ticket by ID
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      {/* Custom Header */}
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        style={{
+          maxWidth: '800px',
+          margin: '0 auto',
+          marginBottom: '2rem'
+        }}
+      >
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            backgroundColor: '#0891b2',
+            color: 'white',
+            padding: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative'
+          }}>
+            <h1 style={{
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+              textAlign: 'center'
+            }}>Find Support Ticket by ID</h1>
+            <div style={{
+              position: 'absolute',
+              right: '1rem'
+            }}>
+              <button
+                onClick={() => setShowUserModal(true)}
+                style={{
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  backgroundColor: 'white',
+                  color: '#1d4ed8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '9999px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+                title={userEmail}
+              >
+                {userEmail?.[0]?.toUpperCase() || 'U'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
-      <Container maxWidth="sm" sx={{ py: 4 }}>
+      <Container maxWidth="sm" sx={{ py: 0 }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -120,7 +172,9 @@ const SupportByIdPage = () => {
               borderRadius: 3,
               boxShadow: 6,
               overflow: 'hidden',
-              background: 'rgba(255, 255, 255, 0.95)'
+              background: 'rgba(255, 255, 255, 0.95)',
+              maxWidth: '800px',
+              margin: '0 auto'
             }}
           >
             <CardContent sx={{ p: 4 }}>
