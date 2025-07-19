@@ -6,8 +6,6 @@ import pregnancyImg from '../assets/pregnancy.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 const icons = {
   person: (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -41,10 +39,11 @@ const icons = {
   )
 };
 
-
 const SupportRequestsPage = () => {
   const [supportRequests, setSupportRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showUserModal, setShowUserModal] = useState(false);
+  const userEmail = 'admin@example.com';
 
   useEffect(() => {
     fetchSupportRequests();
@@ -75,39 +74,6 @@ const SupportRequestsPage = () => {
   };
 
   const InfoRow = ({ icon, label, value }) => {
-    // const icons = {
-    //   person: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-    //     </svg>
-    //   ),
-    //   phone: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-    //     </svg>
-    //   ),
-    //   email: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    //     </svg>
-    //   ),
-    //   message: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-    //     </svg>
-    //   ),
-    //   calendar: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    //     </svg>
-    //   ),
-    //   key: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-    //     </svg>
-    //   )
-    // };
-
     return (
       <motion.div
         initial={{ opacity: 0, x: -10 }}
@@ -136,12 +102,25 @@ const SupportRequestsPage = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-indigo-600 py-4 shadow-lg"
+        className="max-w-6xl mx-auto mb-8"
       >
-        <h1 className="text-white text-center text-xl font-bold">Support Requests</h1>
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-cyan-600 text-white p-4 flex justify-center items-center relative">
+            <h1 className="text-xl font-bold text-center">Support Requests</h1>
+            <div className="absolute right-4">
+              <button
+                onClick={() => setShowUserModal(true)}
+                className="w-10 h-10 bg-white text-blue-700 flex items-center justify-center rounded-full font-bold cursor-pointer"
+                title={userEmail}
+              >
+                {userEmail?.[0]?.toUpperCase() || 'U'}
+              </button>
+            </div>
+          </div>
+        </div>
       </motion.div>
 
       {isLoading ? (
