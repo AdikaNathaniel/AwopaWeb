@@ -307,14 +307,14 @@ const SymptomForm = () => {
                         variant="contained"
                         fullWidth
                         disabled={isSubmitting}
-                        sx={{
-                          height: '50px',
-                          backgroundColor: '#06b6d4',
-                          '&:hover': { backgroundColor: '#0891b2' },
-                          fontSize: '16px',
-                          borderRadius: '8px',
-                          textTransform: 'none'
-                        }}
+                       sx={{
+  height: '50px',
+  backgroundColor: '#0891b2', // cyan-600
+  '&:hover': { backgroundColor: '#0e7490' }, // cyan-700
+  fontSize: '16px',
+  borderRadius: '8px',
+  textTransform: 'none'
+}}
                       >
                         {isSubmitting ? (
                           <CircularProgress size={24} color="inherit" />

@@ -108,7 +108,7 @@ export default function AppointmentScheduleByMedicPage() {
           boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
         }}>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>
-            Preeclampsia Symptom Checker
+            Schedule Your Appointment With A Medic
           </h1>
         </div>
       </motion.div>

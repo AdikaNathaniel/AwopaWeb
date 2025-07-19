@@ -152,7 +152,7 @@ export default function HealthDashboard() {
   const handleNavigation = (page) => {
     switch (page) {
       case 'notifications':
-        navigate('/notifications');
+        navigate('/notification-list');
         break;
       case 'settings':
         navigate('/set-profile');
