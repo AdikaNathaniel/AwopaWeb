@@ -158,10 +158,13 @@ export default function HealthDashboard() {
         navigate('/set-profile');
         break;
       case 'support':
-        navigate('/support-create');
+        navigate('/support-form');
         break;
       case 'map':
         navigate('/map');
+        break;
+      case 'emergency-alert':
+        navigate('/emergency-alert');
         break;
       default:
         break;
@@ -212,7 +215,7 @@ export default function HealthDashboard() {
     { title: 'Notifications', icon: <Bell className="text-blue-500" size={24} />, onClick: () => handleNavigation('notifications') },
     { title: 'Settings', icon: <Settings className="text-indigo-500" size={24} />, onClick: () => handleNavigation('settings') },
     { title: 'Support', icon: <HelpCircle className="text-green-600" size={24} />, onClick: () => handleNavigation('support') },
-    { title: 'Emergency Alert', icon: <AlertTriangle className="text-red-500" size={24} />, onClick: handleEmergency },
+    { title: 'Emergency Alert', icon: <AlertTriangle className="text-red-500" size={24} />, onClick: () => handleNavigation('emergency-alert') },
     { title: 'View Location', icon: <MapPin className="text-emerald-500" size={24} />, onClick: () => handleNavigation('map') },
     { title: 'Logout', icon: <LogOut className="text-rose-600" size={24} />, onClick: handleLogout },
   ];

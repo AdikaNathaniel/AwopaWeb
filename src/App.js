@@ -62,6 +62,7 @@ import PinVerifyScreen from './components/verify-pin';
 import PrescriptionPage from './components/view_prescriptions';
 import ViewAppointmentsPage from './components/view-appointment';
 import WellnessTipsScreen from './components/wellness-page';
+import EmergencyAlertPage  from './components/emergency-alert';
 
 
 function App() {
@@ -134,6 +135,7 @@ function App() {
         <Route path="/view-prescriptions" element={<PrescriptionPage />} />
         <Route path="/view-appointments" element={<ViewAppointmentsPage />} />
         <Route path="/wellness-tips" element={<WellnessTipsScreen />} />
+        <Route path="/emergency-alert" element={<EmergencyAlertPage />} />
       </Routes>
     </Router>
   );

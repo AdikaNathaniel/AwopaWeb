@@ -144,22 +144,37 @@ const SupportFormPage = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
+        padding: '20px 0'
       }}
     >
+      {/* Support Form Header - Wider than the card but not touching page edges */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-blue-600 py-4 shadow-lg"
+        style={{
+          width: '90%',
+          maxWidth: '900px',
+          margin: '0 auto 10px', // Reduced bottom margin to close the gap
+          position: 'relative',
+          zIndex: 2
+        }}
       >
-        <h1 className="text-white text-center text-xl font-bold">Support Form</h1>
+        <div className="bg-cyan-600 text-white p-4 rounded-lg shadow-md">
+          <h1 className="text-xl font-bold text-center">Support Form</h1>
+        </div>
       </motion.div>
 
+      {/* Form Card - Slightly narrower */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="p-6 max-w-md mx-auto"
+        style={{
+          width: '85%',
+          maxWidth: '800px',
+          margin: '0 auto'
+        }}
       >
         <div className="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg">
           {isSubmitted ? (
