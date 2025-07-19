@@ -170,7 +170,7 @@ const SymptomForm = () => {
           transition={{ duration: 0.5 }}
         >
           {/* AppBar */}
-          <motion.div
+          {/* <motion.div
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ type: 'spring', stiffness: 300 }}
@@ -185,7 +185,21 @@ const SymptomForm = () => {
             <Typography variant="h5" component="h1">
               Preeclampsia Symptom Checker
             </Typography>
-          </motion.div>
+          </motion.div> */}
+
+
+           <motion.div
+                    initial={{ y: -50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="mx-auto max-w-6xl"  // Changed from max-w-4xl to max-w-6xl for wider header
+                  >
+                    <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                      <div className="bg-cyan-600 text-white p-4">
+                        <h1 className="text-xl font-bold text-center">Preeclampsia Symptom Checker</h1>
+                      </div>
+                    </div>
+                  </motion.div>
 
           {/* Form Content */}
           <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
@@ -283,31 +297,32 @@ const SymptomForm = () => {
                     </motion.div>
 
                     {/* Submit Button */}
-                    <motion.div
-                      style={{ marginTop: '32px', width: '100%' }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        disabled={isSubmitting}
-                        sx={{
-                          height: '50px',
-                          backgroundColor: '#06b6d4', // cyan-600
-                          '&:hover': { backgroundColor: '#0891b2' }, // cyan-700
-                          fontSize: '16px',
-                          borderRadius: '8px'
-                        }}
-                      >
-                        {isSubmitting ? (
-                          <CircularProgress size={24} color="inherit" />
-                        ) : (
-                          'Submit Symptoms'
-                        )}
-                      </Button>
-                    </motion.div>
+                   <motion.div
+  style={{ marginTop: '32px', width: '100%' }}
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+>
+  <Button
+    type="submit"
+    variant="contained"
+    fullWidth
+    disabled={isSubmitting}
+    sx={{
+      height: '50px',
+      backgroundColor: '#06b6d4', // cyan-600
+      '&:hover': { backgroundColor: '#0891b2' }, // cyan-700
+      fontSize: '16px',
+      borderRadius: '8px',
+      textTransform: 'none' // <-- this keeps text casing as written
+    }}
+  >
+    {isSubmitting ? (
+      <CircularProgress size={24} color="inherit" />
+    ) : (
+      'Submit Symptoms'
+    )}
+  </Button>
+</motion.div>
                   </form>
                 </CardContent>
               </Card>
