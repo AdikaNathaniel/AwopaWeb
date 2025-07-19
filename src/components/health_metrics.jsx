@@ -20,6 +20,9 @@ import {
   X,
   Plus,
   Minus,
+  Gauge,
+  TestTube,
+  User,
 } from 'lucide-react';
 
 // Helper function to format time elapsed
@@ -85,6 +88,28 @@ export default function HealthDashboard() {
       value: `${currentWeight} kg`,
       icon: <Weight size={32} className="text-green-600" />,
       lastUpdated: formatTimeElapsed(weightLastUpdated),
+    },
+  ];
+
+  // Additional metrics data
+  const additionalMetrics = [
+    {
+      title: 'Mean Arterial Pressure',
+      value: '93 mmHg',
+      icon: <Gauge size={32} className="text-teal-500" />,
+      lastUpdated: '1 hour ago',
+    },
+    {
+      title: 'Protein in Urine',
+      value: 'Negative',
+      icon: <TestTube size={32} className="text-indigo-500" />,
+      lastUpdated: '2 days ago',
+    },
+    {
+      title: 'Patient ID',
+      value: '001',
+      icon: <User size={32} className="text-cyan-600" />,
+      lastUpdated: 'Profile created',
     },
   ];
 
@@ -221,6 +246,26 @@ export default function HealthDashboard() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3 md:mb-4">
+              {metric.icon}
+            </div>
+            <h2 className="text-base md:text-lg font-semibold text-gray-800">{metric.title}</h2>
+            <p className="text-lg md:text-xl font-bold text-gray-900">{metric.value}</p>
+            <p className="text-xs md:text-sm text-gray-500">Last updated: {metric.lastUpdated}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Additional Metrics Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-6">
+        {additionalMetrics.map((metric, index) => (
+          <motion.div
+            key={index}
+            className="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl shadow-md flex flex-col items-center text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
           >
             <div className="w-12 h-12 md:w-16 md:h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3 md:mb-4">
               {metric.icon}
