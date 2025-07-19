@@ -9,6 +9,8 @@ const SupportByNamePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [tickets, setTickets] = useState([]);
+  const [showUserModal, setShowUserModal] = useState(false);
+  const userEmail = 'admin@example.com';
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -106,9 +108,27 @@ const SupportByNamePage = () => {
       className="min-h-screen bg-cover bg-center bg-opacity-50"
       style={{ backgroundImage: `url(${pregnancyImg})` }}
     >
-      <div className="bg-cyan-600 text-white py-4 shadow-md">
-        <h1 className="text-xl font-bold text-center">Find Support Tickets by Name</h1>
-      </div>
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-6xl mx-auto mb-8"
+      >
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-cyan-600 text-white p-4 flex justify-center items-center relative">
+            <h1 className="text-xl font-bold text-center">Find Support Ticket By Name</h1>
+            <div className="absolute right-4">
+              <button
+                onClick={() => setShowUserModal(true)}
+                className="w-10 h-10 bg-white text-blue-700 flex items-center justify-center rounded-full font-bold cursor-pointer"
+                title={userEmail}
+              >
+                {userEmail?.[0]?.toUpperCase() || 'U'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       <div className="container mx-auto px-4 py-8">
         <motion.div 
