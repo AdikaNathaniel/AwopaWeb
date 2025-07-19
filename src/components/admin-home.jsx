@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import pregnancyImg from '../assets/pregnancy.png';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaBell, FaHeadset, FaUsers, FaUserCircle, FaSignOutAlt, FaCog, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function AdminHomePage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Use from navigation state or fallback to test email
   const userEmail = location.state?.userEmail || "admin@example.com"; 
-  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
   const [selectedPage, setSelectedPage] = useState('Dashboard');
 
   const logout = async () => {
@@ -81,42 +80,51 @@ export default function AdminHomePage() {
     </div>
   );
 
-  const UserMenu = () => (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2 }}
-      className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg z-50"
-    >
-      <div className="p-4">
-        <div className="flex items-center mb-4">
-          <FaUserCircle className="text-gray-500 mr-3" />
-          <span className="text-gray-700">{userEmail}</span>
-        </div>
-        
-        <div className="border-t pt-2">
-          <div className="flex items-center py-2 hover:bg-gray-100 cursor-pointer px-2 rounded">
-            <FaCog className="text-gray-500 mr-3" />
-            <span>Settings</span>
+  const UserModal = () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 bg-black bg-opacity-50"
+        onClick={() => setShowUserModal(false)}
+      />
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="relative bg-white rounded-lg shadow-xl w-full max-w-md"
+      >
+        <div className="p-6">
+          <div className="flex items-center mb-6">
+            <FaUserCircle className="text-cyan-600 text-3xl mr-4" />
+            <div>
+              <h3 className="text-lg font-semibold">User Profile</h3>
+              <p className="text-gray-600">{userEmail}</p>
+            </div>
           </div>
-          <div className="flex items-center py-2 hover:bg-gray-100 cursor-pointer px-2 rounded">
-            <FaMapMarkerAlt className="text-gray-500 mr-3" />
-            <span>View Live Location Of PregMama</span>
+          
+          <div className="space-y-3">
+            <div className="flex items-center p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
+              <FaCog className="text-gray-500 text-xl mr-4" />
+              <span>Settings</span>
+            </div>
+            <div className="flex items-center p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
+              <FaMapMarkerAlt className="text-gray-500 text-xl mr-4" />
+              <span>View Live Location Of PregMama</span>
+            </div>
+          </div>
+          
+          <div className="mt-6 pt-4 border-t">
+            <button
+              onClick={logout}
+              className="w-full flex items-center justify-center p-3 text-red-600 hover:bg-red-50 rounded-lg"
+            >
+              <FaSignOutAlt className="mr-3" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
-        
-        <div className="border-t pt-2">
-          <div 
-            className="flex items-center py-2 text-red-500 hover:bg-gray-100 cursor-pointer px-2 rounded"
-            onClick={logout}
-          >
-            <FaSignOutAlt className="mr-3" />
-            <span>Logout</span>
-          </div>
-        </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 
   return (
@@ -127,7 +135,7 @@ export default function AdminHomePage() {
         className="absolute w-full h-full object-cover z-0"
       />
       <div className="relative z-20 p-6">
-        {/* Admin Panel Header with User Controls */}
+        {/* Admin Panel Header */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -138,14 +146,13 @@ export default function AdminHomePage() {
             <div className="bg-cyan-600 text-white p-4 flex justify-center items-center relative">
               <h1 className="text-xl font-bold text-center">Admin Panel</h1>
               <div className="absolute right-4">
-                <div
-                  onClick={() => setShowUserMenu(!showUserMenu)}
+                <button
+                  onClick={() => setShowUserModal(true)}
                   className="w-10 h-10 bg-white text-blue-700 flex items-center justify-center rounded-full font-bold cursor-pointer"
                   title={userEmail}
                 >
                   <FaUserCircle className="text-xl" />
-                </div>
-                {showUserMenu && <UserMenu />}
+                </button>
               </div>
             </div>
           </div>
@@ -155,6 +162,11 @@ export default function AdminHomePage() {
         <main className="bg-white bg-opacity-90 p-6 rounded-xl shadow-lg max-w-6xl mx-auto">
           {selectedPage === 'Dashboard' ? renderDashboard() : renderPage()}
         </main>
+
+        {/* User Modal */}
+        <AnimatePresence>
+          {showUserModal && <UserModal />}
+        </AnimatePresence>
       </div>
     </div>
   );
