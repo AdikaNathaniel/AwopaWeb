@@ -66,12 +66,12 @@ export default function NotificationListPage() {
       <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
       
       <div className="relative z-20 p-6">
-        {/* Header Section */}
+        {/* Header Section - Full width */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="max-w-6xl mx-auto mb-8"
+          className="w-full mb-8"
         >
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="bg-cyan-600 text-white p-4 flex justify-center items-center relative">
@@ -80,8 +80,8 @@ export default function NotificationListPage() {
           </div>
         </motion.div>
 
-        {/* Main Content */}
-        <div className="max-w-6xl mx-auto">
+        {/* Main Content - Cards with reduced width */}
+        <div className="max-w-4xl mx-auto">
           {isLoading ? (
             <motion.div
               initial={{ opacity: 0 }}
@@ -128,7 +128,8 @@ export default function NotificationListPage() {
                     exit={{ opacity: 0, x: 50 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
-                    className="border border-gray-200 p-6 rounded-xl shadow-sm bg-white/90 hover:shadow-md transition-all duration-200"
+                    className="border border-gray-200 p-6 rounded-xl shadow-sm bg-white/90 hover:shadow-md transition-all duration-200 mx-auto"
+                    style={{ width: '90%' }} // Reduced width for cards
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center">
