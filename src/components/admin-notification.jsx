@@ -48,7 +48,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#22c55e', // Green
       onClick: () => {
         _onOptionSelected("Create Notification");
-        navigate('/admin/notifications/create');
+        navigate('/create-notification');
       }
     },
     {
@@ -57,7 +57,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#14b8a6', // Teal
       onClick: () => {
         _onOptionSelected("Get Notifications by Role");
-        navigate('/admin/notifications/role');
+        navigate('/notification-role');
       }
     },
     {
@@ -66,7 +66,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#f59e0b', // Amber
       onClick: () => {
         _onOptionSelected("Get All Notifications");
-        navigate('/admin/notifications/all');
+        navigate('/notification-list');
       }
     },
     {
@@ -75,7 +75,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#3b82f6', // Blue
       onClick: () => {
         _onOptionSelected("Update Notification");
-        navigate('/admin/notifications/update');
+        navigate('/notification-update');
       }
     },
     {
@@ -84,7 +84,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#f97316', // Orange
       onClick: () => {
         _onOptionSelected("Get Notification by ID");
-        navigate('/admin/notifications/id');
+        navigate('/notification-id');
       }
     },
     {
@@ -93,7 +93,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#6366f1', // Indigo
       onClick: () => {
         _onOptionSelected("Mark Notification as Sent");
-        navigate('/admin/notifications/sent');
+        navigate('/notification-sent');
       }
     },
     {
@@ -102,7 +102,7 @@ const NotificationSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       iconBgColor: '#ef4444', // Red
       onClick: () => {
         _onOptionSelected("Delete Notifications");
-        navigate('/admin/notifications/delete');
+        navigate('/delete-notification');
       }
     }
   ];
