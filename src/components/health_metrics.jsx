@@ -91,7 +91,7 @@ export default function HealthDashboard() {
   const navItems = [
     { name: 'Appointments', path: '/medic-appointment', short: 'Appts' },
     { name: 'Pregnancy Tips', path: '/wellness-tips', short: 'Tips' },
-    { name: 'Live Vitals', path: '/hardware-vitals', short: 'Vitals' },
+    // { name: 'Live Vitals', path: '/hardware-vitals', short: 'Vitals' },
     { name: 'Protein In Urine Test', path: '/urine-strip', short: 'Protein' },
     { name: 'InfoDesk', path: '/pregnancy-health', short: 'Info' },
     { name: 'Chatbot', path: '/pregnancy-chatbot', short: 'Chat' },
