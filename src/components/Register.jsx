@@ -111,7 +111,7 @@ export default function Register() {
             </div>
           </div>
 
-          <h2 className="text-4xl text-white font-bold text-center mb-8">Register On Awopa</h2>
+          <h2 className="text-4xl text-white font-bold text-center mb-8">Register On Awoapa</h2>
 
           {message && (
             <div className={`mb-4 p-2 rounded text-center ${

@@ -23,7 +23,7 @@ export default function Login() {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [animationPhase, setAnimationPhase] = useState(0);
-  const fullText = 'Welcome To Awopa';
+  const fullText = 'Welcome To Awoapa';
 
   // Complex typewriter effect
   useEffect(() => {
@@ -89,10 +89,10 @@ export default function Login() {
           }, 50);
           break;
 
-        case 4: // Type final "Awopa" and stay
+        case 4: // Type final "Awoapa" and stay
           timer = setInterval(() => {
-            if (index < 5) { // "Awopa" is 5 characters
-              setDisplayText('Awopa'.slice(0, index + 1));
+            if (index < 6) { // "Awoapa" is 6 characters
+              setDisplayText('Awoapa'.slice(0, index + 1));
               index++;
             } else {
               clearInterval(timer);
