@@ -54,7 +54,7 @@ export default function AdminHomePage() {
           </div>
           
           <div 
-            onClick={() => navigate('/admin/users')}
+            onClick={() => navigate('/users-summary')}
             className="p-4 flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
           >
             <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
