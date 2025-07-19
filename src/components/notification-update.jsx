@@ -60,9 +60,9 @@ const NotificationUpdatePage = () => {
         backgroundAttachment: 'fixed',
       }}
     >
-      <div className="bg-black bg-opacity-60 min-h-screen">
+      <div className="bg-opacity-90 min-h-screen">
         <div className="container mx-auto px-4 py-8">
-          <motion.div
+          {/* <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -71,7 +71,7 @@ const NotificationUpdatePage = () => {
             <div className="bg-cyan-600 text-white p-4">
               <h1 className="text-xl font-bold text-center">Update Notification</h1>
             </div>
-          </motion.div>
+          </motion.div> */}
 
           <div className="flex justify-center items-center py-12">
             <motion.div

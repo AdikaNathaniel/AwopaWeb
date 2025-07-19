@@ -52,12 +52,12 @@ const DeleteNotificationPage = () => {
           Delete Notification
         </h2>
 
-        <p className="text-gray-700 mb-2 font-medium">Enter Notification ID to Delete:</p>
+        <p className="text-gray-700 mb-2 font-medium">Notification ID </p>
         <input
           type="text"
           value={notificationId}
           onChange={(e) => setNotificationId(e.target.value)}
-          placeholder="Notification ID"
+          placeholder="Enter Notification ID For Deletion"
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600 mb-4"
         />
 

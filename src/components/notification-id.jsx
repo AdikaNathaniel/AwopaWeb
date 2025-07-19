@@ -68,7 +68,7 @@ export default function NotificationByIdPage() {
 
   return (
     <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${pregnancyImg})` }}>
-      <div className="bg-white bg-opacity-90 min-h-screen p-6">
+      <div className="bg-opacity-90 min-h-screen p-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

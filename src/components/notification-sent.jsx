@@ -89,9 +89,9 @@ const NotificationSentPage = () => {
         backgroundAttachment: 'fixed',
       }}
     >
-      <div className="bg-black bg-opacity-60 min-h-screen">
+      <div className="bg-opacity-60 min-h-screen">
         <div className="container mx-auto px-4 py-8">
-          <motion.div
+          {/* <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -100,7 +100,7 @@ const NotificationSentPage = () => {
             <div className="bg-cyan-600 text-white p-4">
               <h1 className="text-xl font-bold text-center">Mark Notification as Sent</h1>
             </div>
-          </motion.div>
+          </motion.div> */}
 
           <div className="flex justify-center items-center py-12">
             <AnimatePresence mode="wait">
@@ -140,7 +140,7 @@ const NotificationSentPage = () => {
                       </div>
 
                       <h2 className="text-xl font-semibold text-center text-gray-800 mb-4">
-                        Enter Notification ID to Mark as Sent
+                         Notification ID to Mark as Sent
                       </h2>
 
                       <div className="mb-6">
