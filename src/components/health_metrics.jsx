@@ -89,17 +89,17 @@ export default function HealthDashboard() {
   ];
 
   const navItems = [
-    { name: 'Appointments', path: '/appointments', short: 'Appts' },
-    { name: 'Pregnancy Tips', path: '/pregnancy-tips', short: 'Tips' },
-    { name: 'Live Vitals', path: '/live-vitals', short: 'Vitals' },
-    { name: 'Protein Test', path: '/protein-test', short: 'Protein' },
-    { name: 'InfoDesk', path: '/info-desk', short: 'Info' },
-    { name: 'Chatbot', path: '/chatbot', short: 'Chat' },
-    { name: 'Emergency', path: '/emergency-contacts', short: 'Emergency' },
-    { name: 'Payments', path: '/payments', short: 'Pay' },
-    { name: 'Medics', path: '/medics', short: 'Medics' },
-    { name: 'Mood', path: '/mood-tracker', short: 'Mood' },
-    { name: 'Find Medic', path: '/find-medic', short: 'Find' }
+    { name: 'Appointments', path: '/medic-appointment', short: 'Appts' },
+    { name: 'Pregnancy Tips', path: '/wellness-tips', short: 'Tips' },
+    { name: 'Live Vitals', path: '/hardware-vitals', short: 'Vitals' },
+    { name: 'Protein In Urine Test', path: '/urine-strip', short: 'Protein' },
+    { name: 'InfoDesk', path: '/pregnancy-health', short: 'Info' },
+    { name: 'Chatbot', path: '/pregnancy-chatbot', short: 'Chat' },
+    { name: 'Emergency', path: '/emergency-contact', short: 'Emergency' },
+    { name: 'Payments', path: '/paystack-init', short: 'Pay' },
+    { name: 'Medics', path: '/medic-list', short: 'Medics' },
+    { name: 'Mood', path: '/symptom-checker', short: 'Mood' },
+    { name: 'Find Medic', path: '/doctor-by-name', short: 'Find' }
   ];
 
   const handleNavigation = (page) => {

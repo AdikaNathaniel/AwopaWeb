@@ -183,7 +183,7 @@ const SymptomForm = () => {
             }}
           >
             <Typography variant="h5" component="h1">
-              Symptom Checker
+              Preeclampsia Symptom Checker
             </Typography>
           </motion.div>
 
