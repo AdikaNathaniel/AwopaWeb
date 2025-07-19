@@ -39,30 +39,33 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
 
   const supportOptions = [
     {
-      icon: <ListAltIcon color="primary" />,
+      icon: <ListAltIcon sx={{ color: '#ffffff' }} />,
       title: "Get All Support Requests",
       // subtitle: "View all support requests in the system",
       // type: "All Requests",
+      iconBgColor: '#2196f3', // Blue
       onClick: () => {
         _onOptionSelected("Get All Support Requests");
         navigate('/support-requests');
       }
     },
     {
-      icon: <FindInPageIcon color="secondary" />,
+      icon: <FindInPageIcon sx={{ color: '#ffffff' }} />,
       title: "Get Support Request By Id",
       // subtitle: "Search for specific support request by ID",
       // type: "By ID",
+      iconBgColor: '#9c27b0', // Purple
       onClick: () => {
         _onOptionSelected("Get Support Request By Id");
         navigate('/support-by-id');
       }
     },
     {
-      icon: <ReceiptLongIcon sx={{ color: '#4caf50' }} />,
+      icon: <ReceiptLongIcon sx={{ color: '#ffffff' }} />,
       title: "Get Support Request By Name",
       // subtitle: "Search for support request by name",
       // type: "By Name",
+      iconBgColor: '#4caf50', // Green
       onClick: () => {
         _onOptionSelected("Get Support Request By Name");
         navigate('/support-by-name');
@@ -134,7 +137,7 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
       <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
       
       <div className="relative z-20 p-6">
-        {/* Header Section - Same as UserListPage */}
+        {/* Header Section */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -192,14 +195,17 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
                   >
                     <CardContent>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <div style={{ marginRight: '16px' }}>
-                          <Avatar sx={{ 
-                            width: 40, 
-                            height: 40,
-                            bgcolor: 'transparent'
-                          }}>
-                            {option.icon}
-                          </Avatar>
+                        <div style={{ 
+                          marginRight: '16px',
+                          width: 48,
+                          height: 48,
+                          borderRadius: '50%',
+                          backgroundColor: option.iconBgColor,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          {option.icon}
                         </div>
                         
                         <Box sx={{ flexGrow: 1 }}>
@@ -229,10 +235,9 @@ const SupportSettingsPage = ({ userEmail = 'admin@example.com' }) => {
               ))}
             </div>
           </motion.div>
-
         </div>
 
-        {/* User Modal - Same as UserListPage */}
+        {/* User Modal */}
         <AnimatePresence>
           {showUserModal && <UserModal />}
         </AnimatePresence>
